@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Res\icon.ico</ApplicationIcon>
+    <Company>xuexuesoft</Company>
+    <Authors>daixian</Authors>
+    <Description>拷贝文件小工具</Description>
+    <Copyright>© 2021-2022 xuexuesoft.</Copyright>
+    <AssemblyVersion>1.0.0.1008</AssemblyVersion>
+    <FileVersion>1.0.0.1008</FileVersion>
+    <Title>拷贝文件小工具</Title>
+    <Product>$(AssemblyName)</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Res\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Res\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>
