@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,16 +31,13 @@ namespace CopyFileTool
         /// </summary>
         public void LoadFile()
         {
-            lock (this)
-            {
-                try
-                {
+            lock (this) {
+                try {
                     string json = File.ReadAllText("appdata.json");
                     AppData? tempObj = JsonConvert.DeserializeObject<AppData>(json);
                     Inst = tempObj ?? Inst;
                 }
-                catch (Exception)
-                {
+                catch (Exception) {
 
                 }
             }
@@ -52,15 +49,12 @@ namespace CopyFileTool
         /// </summary> 
         public void WriteFile()
         {
-            lock (this)
-            {
-                try
-                {
+            lock (this) {
+                try {
                     string? json = JsonConvert.SerializeObject(this);
                     File.WriteAllText("appdata.json", json);
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
             }
@@ -73,11 +67,9 @@ namespace CopyFileTool
         /// <returns>保存的json数据</returns>
         public string? GetData(int controlIndex)
         {
-            lock (this)
-            {
+            lock (this) {
                 if (dictUserControlData != null &&
-                dictUserControlData.ContainsKey(controlIndex))
-                {
+                dictUserControlData.ContainsKey(controlIndex)) {
                     return dictUserControlData[controlIndex];
                 }
             }
@@ -91,10 +83,8 @@ namespace CopyFileTool
         /// <param name="json"></param>
         public void SetData(int controlIndex, string json)
         {
-            lock (this)
-            {
-                if (dictUserControlData == null)
-                {
+            lock (this) {
+                if (dictUserControlData == null) {
                     dictUserControlData = new Dictionary<int, string>();
                 }
                 dictUserControlData[controlIndex] = json;

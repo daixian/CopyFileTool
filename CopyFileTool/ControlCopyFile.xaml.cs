@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,8 +46,7 @@ namespace CopyFileTool
         /// <summary>
         /// 控件的序号
         /// </summary>
-        public int ControlIndex
-        {
+        public int ControlIndex {
             get { return (int)GetValue(ControlIndexProperty); }
             set { SetValue(ControlIndexProperty, value); }
         }
@@ -70,8 +69,7 @@ namespace CopyFileTool
             //中间一段匹配 非双引号,非单引号,非逗号,非换行字符,非制表符
             Regex regex = new Regex("([\"'\\n\\t])([^\"',\\n\\t]+)([\"'\\n\\t])", RegexOptions.None);
             MatchCollection mc = regex.Matches(text);
-            foreach (Match m in mc)
-            {
+            foreach (Match m in mc) {
                 result.Add(m.Groups[2].Value);
             }
             return result;
@@ -83,47 +81,39 @@ namespace CopyFileTool
             List<string> listDstPath = SplitString(dstText.Text);//控件中的文本
 
             //如果用引号都找不到匹配,那么就直接加整段的吧
-            if (listSrcPath.Count == 0)
-            {
+            if (listSrcPath.Count == 0) {
                 listSrcPath.Add(srcText.Text);
             }
-            if (listDstPath.Count == 0)
-            {
+            if (listDstPath.Count == 0) {
                 listDstPath.Add(dstText.Text);
             }
 
-            if (listSrcPath.Count != listDstPath.Count)
-            {
+            if (listSrcPath.Count != listDstPath.Count) {
                 MessageBox.Show(Application.Current.MainWindow, "源和目标的数组长度不一致!");
                 return;
             }
 
             SaveState();
             int successCount = 0;
-            for (int i = 0; i < listSrcPath.Count; i++)
-            {
+            for (int i = 0; i < listSrcPath.Count; i++) {
                 string srcPath = listSrcPath[i];
                 string dstPath = listDstPath[i];
-                try
-                {
+                try {
                     //移除引号,实际上这里没有引号了
                     srcPath = srcPath.Replace("\"", "");
                     dstPath = dstPath.Replace("\"", "");
 
                     FileInfo srcFile = new FileInfo(srcPath);
-                    if (srcFile.Exists)
-                    {
+                    if (srcFile.Exists) {
                         FileInfo dstFile = new FileInfo(dstPath);
-                        if (CopyFile(srcFile.FullName, dstFile.FullName))
-                        {
+                        if (CopyFile(srcFile.FullName, dstFile.FullName)) {
                             successCount++;
                         }
                     }
 
 
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
 
@@ -142,8 +132,7 @@ namespace CopyFileTool
             FileStream? fsR = null;
             FileStream? fsW = null;
             FileInfo f = new FileInfo(sourcePath);
-            try
-            {
+            try {
                 //注意这里的FileShare设置,用共享模式打开文件,免得被占用
                 fsR = File.Open(sourcePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
                 fsW = File.Create(destPath);
@@ -151,12 +140,10 @@ namespace CopyFileTool
 
                 byte[] buffer = new byte[1024 * 1024 * 1];
                 int n = 0;
-                while (true)
-                {
+                while (true) {
                     //读写文件
                     n = fsR.Read(buffer, 0, buffer.Length);
-                    if (n == 0)
-                    {
+                    if (n == 0) {
                         break;
                     }
                     fsW.Write(buffer, 0, n);
@@ -165,8 +152,7 @@ namespace CopyFileTool
                 }
                 success = true;//成功拷贝了
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
             fsR?.Close();
@@ -178,11 +164,9 @@ namespace CopyFileTool
         {
             //只有在这个Load事件的时候,ControlIndex才有值.
             string? json = AppData.Inst.GetData(ControlIndex);
-            if (json != null)
-            {
+            if (json != null) {
                 JsonData? dataObj = JsonConvert.DeserializeObject<JsonData>(json);
-                if (dataObj != null)
-                {
+                if (dataObj != null) {
                     srcText.Text = dataObj.srcPath;
                     dstText.Text = dataObj.dstPath;
                 }
@@ -204,8 +188,7 @@ namespace CopyFileTool
         /// </summary>
         private void SaveState()
         {
-            JsonData jsonData = new JsonData()
-            {
+            JsonData jsonData = new JsonData() {
                 srcPath = srcText.Text,
                 dstPath = dstText.Text
             };
