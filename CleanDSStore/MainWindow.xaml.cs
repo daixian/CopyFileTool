@@ -45,6 +45,11 @@ namespace CleanDSStore
             }
         }
 
+        /// <summary>
+        /// 对一个文件夹执行清理.
+        /// </summary>
+        /// <param name="dirPath"></param>
+        /// <returns>清理掉的文件个数</returns>
         private int Clean(string dirPath)
         {
             int deleteCount = 0;
@@ -53,8 +58,10 @@ namespace CleanDSStore
             FileInfo[] fis = di.GetFiles("._*", SearchOption.AllDirectories);
             foreach (FileInfo fi in fis) {
                 string fileName = fi.Name.Substring(2);
-                string filePath = System.IO.Path.Combine(fi.DirectoryName, fileName);
-                if (System.IO.File.Exists(filePath)) {
+                string oriPath = System.IO.Path.Combine(fi.DirectoryName, fileName);//对应的原始文件或者原始文件夹名字
+                if (System.IO.File.Exists(oriPath) ||
+                    System.IO.Directory.Exists(oriPath)
+                    ) {
                     // 删除这个临时文件
                     fi.Delete();
                     deleteCount++;
